@@ -28,10 +28,31 @@ async function loadPopularShows() {
 
     // await res.json() parses the body. It also returns a Promise, so it needs await.
     const data = await res.json();
-    console.log(data);
+    // data is the entire response object | data.results is just the arry containing the TV shows
+    fillDropdown(data.results);
   } catch (error) { // catch receives any error that was thrown.
     console.error(error);
   }
+}
+
+// fillDropdown() needs the shows, not the entire folder | That's why when it is called, it needs data.results and not data
+function fillDropdown(results) {
+    // Clear the dropdown
+    showSelect.textContent = "";
+
+    // Create the paceholder option
+    const placeholder = document.createElement("option");
+    placeholder.textContent = "Select a show";
+    placeholder.value = "";
+    showSelect.appendChild(placeholder);
+
+    // Create an option for each show
+    results.forEach(show => {
+        const option = document.createElement("option");
+        option.textContent = show.name;
+        option.value = show.id;
+        showSelect.appendChild(option);
+    });
 }
 
 loadPopularShows();
