@@ -1,5 +1,6 @@
 const showSelect = document.getElementById("show-select");
 const showDetails = document.getElementById("show-details");
+const message = document.getElementById("message");
 
 const requestOptions = {
     method: "GET",
@@ -15,6 +16,12 @@ const requestOptions = {
 async function loadShowDetails(id) {
     const url = `https://api.themoviedb.org/3/tv/${id}`;
 
+    // Display loading message
+    message.textContent = "Loading show details...";
+
+    // Clear previous details
+    showDetails.textContent = "";
+
     try {
         const res = await fetch(url, requestOptions);
         
@@ -23,9 +30,19 @@ async function loadShowDetails(id) {
         }
 
         const show = await res.json();
+
+        // Clear loading message
+        message.textContent = "";
+
         displayDetails(show)
     } catch (error) {
         console.log(error);
+
+        if(error.status === 401) {
+            message.textContent = "Error: Your TMDB token was rejected. Check your API token."
+        } else {
+            message.textContent = "Error: Unable to load show details. Please try again.";
+        }
     }
 }
 
@@ -44,6 +61,9 @@ showSelect.addEventListener("change", function () {
 async function loadPopularShows() {
   const url = "https://api.themoviedb.org/3/tv/popular";
 
+    // Display loading message
+    message.textContent = "Loading popular shows...";
+
   // try/catch wraps the code that can fail, and
   try {
     // await fetch(url, requestOptions) pauses the function until the response arrives, then continues with the Response object.
@@ -57,10 +77,20 @@ async function loadPopularShows() {
 
     // await res.json() parses the body. It also returns a Promise, so it needs await.
     const data = await res.json();
+
+    // Clear loading message
+    message.textContent = "";
+
     // data is the entire response object | data.results is just the arry containing the TV shows
     fillDropdown(data.results);
   } catch (error) { // catch receives any error that was thrown.
     console.error(error);
+
+    if (error.status === 401) {
+        message.textContent = "Error: Your TMDB token was rejected. Check your API token.";
+    } else {
+        message.textContent = "Error: Unable to load popular shows. Please try again.";
+    }
   }
 }
 
