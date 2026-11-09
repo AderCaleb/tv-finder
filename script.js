@@ -1,10 +1,7 @@
 const showSelect = document.getElementById("show-select");
+const showDetails = document.getElementById("show-details");
 
-// async function marks a function that is allowed to use await.
-async function loadPopularShows() {
-  const url = "https://api.themoviedb.org/3/tv/popular";
-
-  const options = {
+const requestOptions = {
     method: "GET",
     // options.headers carries two headers.
     headers: {
@@ -15,10 +12,42 @@ async function loadPopularShows() {
     }
   };
 
-//   try/catch wraps the code that can fail, and
+async function loadShowDetails(id) {
+    const url = `https://api.themoviedb.org/3/tv/${id}`;
+
+    try {
+        const res = await fetch(url, requestOptions);
+        
+        if (!res.ok) {
+            throw new Error(`Request failed with status ${res.status}`);
+        }
+
+        const show = await res.json();
+        console.log(show);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+showSelect.addEventListener("change", function () {
+    const id = showSelect.value;
+
+    // The if (id === "") check stops a request from being sent when the placeholder is chosen, because its value is an empty string.
+    if (id === "") {
+        return;
+    }
+
+    loadShowDetails(id);
+});
+
+// async function marks a function that is allowed to use await.
+async function loadPopularShows() {
+  const url = "https://api.themoviedb.org/3/tv/popular";
+
+  // try/catch wraps the code that can fail, and
   try {
-    // await fetch(url, options) pauses the function until the response arrives, then continues with the Response object.
-    const res = await fetch(url, options);
+    // await fetch(url, requestOptions) pauses the function until the response arrives, then continues with the Response object.
+    const res = await fetch(url, requestOptions);
 
     // res.ok is false for statuses outside 200 to 299.
     if (!res.ok) {
