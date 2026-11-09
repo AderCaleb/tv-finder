@@ -23,7 +23,7 @@ async function loadShowDetails(id) {
         }
 
         const show = await res.json();
-        console.log(show);
+        displayDetails(show)
     } catch (error) {
         console.log(error);
     }
@@ -82,6 +82,51 @@ function fillDropdown(results) {
         option.value = show.id;
         showSelect.appendChild(option);
     });
+}
+
+function displayDetails(show) {
+    // Clear the details
+    showDetails.textContent = "";
+
+    // Create the name heading
+    const name = document.createElement("h2");
+    name.textContent = show.name;
+    showDetails.appendChild(name);
+
+    // Create the poster image (if available)
+    // If True
+    if (show.poster_path) {
+        const poster = document.createElement("img");
+        poster.src = `https://image.tmdb.org/t/p/w500${show.poster_path}`;
+        poster.alt = `${show.name} poster`;
+        showDetails.appendChild(poster);
+    } else { // If False/Null
+        const noPoster = document.createElement("p");
+        noPoster.textContent = "No poster available";
+        showDetails.appendChild(noPoster);
+    }
+
+    // Display the genres
+    const genres = document.createElement("p");
+    // .map() method loops through the array and create a new array containing only the genre names
+    // .join() method combines the array elements into one string, putting a comma and space between each element.
+    genres.textContent = `Genres: ${show.genres.map(genre => genre.name).join(", ")}`;
+    showDetails.appendChild(genres);
+
+    // Display number of seasons
+    const seasons = document.createElement("p");
+    seasons.textContent = `Seasons: ${show.number_of_seasons}`;
+    showDetails.appendChild(seasons);
+
+    // Display number of episodes
+    const episodes = document.createElement("p");
+    episodes.textContent = `Episodes: ${show.number_of_episodes}`;
+    showDetails.appendChild(episodes);
+
+    // Display status
+    const status = document.createElement("p");
+    status.textContent = `Status: ${show.status}`;
+    showDetails.appendChild(status);
 }
 
 loadPopularShows();
