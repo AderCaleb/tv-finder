@@ -1,0 +1,45 @@
+body {
+    text-align: center;
+    background-color: grey;
+    color: whitesmoke;
+    margin: 5rem;
+    padding: 0rem;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+h1 {
+    border-bottom: .15rem whitesmoke solid;
+    border-radius: .5rem;
+    font-weight: bolder;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.popular {
+    font-size: larger;
+    font-weight: bold;
+    padding-bottom: .5rem;
+    margin-top: 1rem;
+    border-top: .15rem whitesmoke solid;
+    border-radius: .5rem;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+#message {
+    color: red;
+    font-size: larger;
+    font-weight: bold;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+#show-details {
+    border: .15rem whitesmoke solid;
+    border-radius: .5rem;
+    margin-top: 1rem;
+    height: auto;
+    max-width: 80rem;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+#show-details img {
+    width: 19rem;
+}
